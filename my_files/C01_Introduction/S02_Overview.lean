@@ -20,10 +20,21 @@ def FermatLastTheorem :=
 
 #check FermatLastTheorem
 
+def Associtivity := ∀ x y z : ℕ, (x + y) + z = x + (y + z)
+
+#check Associtivity
+
+def archimedean_property :=
+∀ x  y : ℕ, x > 0 ∧ y > 0 → ∃ n : ℕ , n > 0 ∧ x*n > y
+
+#check archimedean_property
+
+
 -- These are proofs of propositions.
 theorem easy : 2 + 2 = 4 :=
   rfl
 
+#check 2+2 = 4
 #check easy
 
 theorem hard : FermatLastTheorem :=
@@ -54,4 +65,3 @@ example : ∀ m n : Nat, Even n → Even (m * n) := by
 
 example : ∀ m n : Nat, Even n → Even (m * n) := by
   intros; simp [*, parity_simps]
-

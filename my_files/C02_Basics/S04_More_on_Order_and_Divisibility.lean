@@ -15,7 +15,7 @@ example : min a b = min b a := by
   · show min a b ≤ min b a
     apply le_min
     · apply min_le_right
-    apply min_le_left
+    · apply min_le_left
   · show min b a ≤ min a b
     apply le_min
     · apply min_le_right
@@ -38,19 +38,65 @@ example : min a b = min b a := by
     apply min_le_right
     apply min_le_left
 
+
 example : max a b = max b a := by
-  sorry
+  have h: ∀ x y : ℝ, max x y ≤ max y x := by
+    intro x y
+    apply max_le
+    · show x ≤ max y x
+      apply le_max_right
+    · show y ≤ max y x
+      apply le_max_left
+  apply le_antisymm
+  apply h
+  apply h
+
 example : min (min a b) c = min a (min b c) := by
-  sorry
+  apply le_antisymm
+  ·apply le_min
+   · apply min_le_of_left_le
+     apply min_le_left
+   · apply le_min
+     · apply min_le_of_left_le
+       apply min_le_right
+     · apply min_le_right
+
+  ·apply le_min
+   · apply le_min
+     · apply min_le_left
+     · apply min_le_of_right_le
+       apply min_le_left
+   · apply min_le_of_right_le
+     apply min_le_right
+
 theorem aux : min a b + c ≤ min (a + c) (b + c) := by
-  sorry
+  have h: ∀ a b c : ℝ, min a b + c ≤ a + c := by
+    intro a b c
+    apply add_le_add_right
+    apply min_le_left
+  apply le_min
+  ·apply h
+  ·rw[min_comm]
+   apply h
+
 example : min a b + c = min (a + c) (b + c) := by
-  sorry
+  apply le_antisymm
+  ·apply aux
+  ·show min (a + c) (b + c) ≤ min a b + c
+   calc
+   min a b + c = min a b - (-c) by linearith
+
+
+ #check sub_add_cancel
+
+
 #check (abs_add : ∀ a b : ℝ, |a + b| ≤ |a| + |b|)
 
-example : |a| - |b| ≤ |a - b| :=
-  sorry
+example : |a| - |b| ≤ |a - b| := by
+
 end
+
+
 
 section
 variable (w x y z : ℕ)
@@ -80,5 +126,3 @@ variable (m n : ℕ)
 example : Nat.gcd m n = Nat.gcd n m := by
   sorry
 end
-
-
